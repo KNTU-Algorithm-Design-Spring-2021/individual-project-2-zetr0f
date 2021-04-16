@@ -1,8 +1,8 @@
-package ir.ac.kntu.jamebond;
+package ir.ac.kntu.jamesbond;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
@@ -14,25 +14,27 @@ public class Validator {
 
     public Validator(String dictionaryURL) throws MalformedURLException {
         this.dictionaryURL = dictionaryURL;
-        this.dictionary = new HashMap<String, Set<String>>();
+        this.dictionary = new HashMap<>();
         loadDictionary();
     }
 
-    private void loadDictionary() throws MalformedURLException {
-        URL url = new URL(dictionaryURL);
+    private void loadDictionary() {
         Scanner scanner = null;
         String tempSoundex = null;
         HashSet<String> wordSet = null;
         try {
-            scanner = new Scanner(url.openStream());
+            scanner = new Scanner(new FileInputStream(dictionaryURL));
             while(scanner.hasNextLine()) {
-                String word = scanner.nextLine();
+                String word = scanner.nextLine().trim();
                 tempSoundex = soundex(word.toLowerCase());
                 wordSet = (HashSet<String>) dictionary.get(tempSoundex);
+                if (word.length() < 2) {
+                    continue;
+                }
                 if (wordSet != null) {
                     wordSet.add(word.toLowerCase());
                 } else {
-                    wordSet = new HashSet<String>();
+                    wordSet = new HashSet<>();
                     wordSet.add(word.toLowerCase());
                 }
                 dictionary.put(soundex(word.toLowerCase()), wordSet);

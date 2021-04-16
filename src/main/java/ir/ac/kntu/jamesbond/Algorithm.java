@@ -1,14 +1,23 @@
-package ir.ac.kntu.jamebond;
+package ir.ac.kntu.jamesbond;
 
 import java.net.MalformedURLException;
 import java.util.*;
 
 public class Algorithm {
+    public static Validator validator;
 
-    public static boolean canSplit(String s) throws MalformedURLException {
-        Validator validator = new Validator("http://andrew.cmu.edu/course/15-121/dictionary.txt");
-        if(s == null || s.length() == 0) return false;
-        boolean[] table  = new boolean[s.length()+1];
+    static {
+        try {
+            validator = new Validator("C:\\Users\\ASUS\\Desktop\\algorithm design\\" +
+                    "project2\\individual-project-2-zetr0f\\src\\main\\resources\\dic.txt");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean canSplit(String s) {
+        if (s == null || s.length() == 0) return false;
+        boolean[] table = new boolean[s.length() + 1];
         table[0] = true;
         for (int i = 1; i <= s.length(); i++) {
             for (int j = i - 1; j >= 0; j--) {
@@ -18,40 +27,39 @@ public class Algorithm {
             }
         }
         return table[s.length()];
-}
+    }
 
 
-    public static List<String> findWords(String s, Validator validator ,  Map<String, List<String>> map) {
-        if(map.containsKey(s)){
+    public static List<String> findWords(String s, Validator validator, Map<String, List<String>> map) {
+        if (map.containsKey(s)) {
             return map.get(s);
         }
 
-        List<String> result = new ArrayList<String>();
-        if (validator.valid(s)){
+        List<String> result = new ArrayList<>();
+        if (s.length() != 0 && validator.valid(s)) {
             result.add(s);
         }
 
-        for(int i=1; i<=s.length(); i++) {
+        for (int i = 1; i <= s.length(); i++) {
             String prefix = s.substring(0, i);
-            if(validator.valid(prefix)){
+            if (validator.valid(prefix)) {
                 List<String> returnStringsList = findWords(s.substring(i), validator, map);
-                for(String returnString :returnStringsList ){
+                for (String returnString : returnStringsList) {
                     result.add(prefix + " " + returnString);
                 }
             }
         }
-        map.put(s,result);
+        map.put(s, result);
         return result;
     }
 
-    public static void main(String[] args) throws MalformedURLException {
+    public static void main(String[] args) {
         System.out.println("enter ur string to check :");
-        Validator validator = new Validator("http://andrew.cmu.edu/course/15-121/dictionary.txt");
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
         if (canSplit(input)) {
             Map<String, List<String>> map = new HashMap<>();
-            System.out.println(findWords(input, validator, map));
+            System.out.println(findWords(input, validator, map).toString());
         } else {
             System.out.println("it cant split to words");
         }
