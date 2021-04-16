@@ -12,9 +12,11 @@ public class Main {
         System.out.println("enter number of words u want to enter : ");
         n = Integer.parseInt(scanner.next());
         String[] words = new String[n];
+
         for (int i = 0; i < n; i++) {
             words[i] = "";
         }
+
         for (int i = 0; i < n; i++) {
             words[i] = scanner.next();
         }
