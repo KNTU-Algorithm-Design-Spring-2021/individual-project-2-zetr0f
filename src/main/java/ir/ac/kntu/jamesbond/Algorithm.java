@@ -1,18 +1,13 @@
 package ir.ac.kntu.jamesbond;
 
-import java.net.MalformedURLException;
 import java.util.*;
 
 public class Algorithm {
     public static Validator validator;
 
     static {
-        try {
-            validator = new Validator("C:\\Users\\ASUS\\Desktop\\algorithm design\\" +
-                    "project2\\individual-project-2-zetr0f\\src\\main\\resources\\dic.txt");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        validator = new Validator("C:\\Users\\ASUS\\Desktop\\algorithm design\\" +
+                "project2\\individual-project-2-zetr0f\\src\\main\\resources\\dic.txt");
     }
 
     public static boolean canSplit(String s) {

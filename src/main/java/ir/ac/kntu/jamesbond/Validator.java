@@ -2,7 +2,6 @@ package ir.ac.kntu.jamesbond;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
@@ -12,7 +11,7 @@ public class Validator {
     String dictionaryURL;
     HashMap<String, Set<String>> dictionary;
 
-    public Validator(String dictionaryURL) throws MalformedURLException {
+    public Validator(String dictionaryURL) {
         this.dictionaryURL = dictionaryURL;
         this.dictionary = new HashMap<>();
         loadDictionary();
@@ -20,8 +19,8 @@ public class Validator {
 
     private void loadDictionary() {
         Scanner scanner = null;
-        String tempSoundex = null;
-        HashSet<String> wordSet = null;
+        String tempSoundex;
+        HashSet<String> wordSet;
         try {
             scanner = new Scanner(new FileInputStream(dictionaryURL));
             while(scanner.hasNextLine()) {
